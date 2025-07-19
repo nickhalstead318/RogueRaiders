@@ -23,8 +23,8 @@ public class CardBehavior : MonoBehaviour
     {
         objectRenderer = GetComponent<Renderer>();
         direction = CardDirection.Stationary;
-        stationaryPosition = new Vector3(transform.position.x, -35, transform.position.z);
-        hoveredPosition = new Vector3(transform.position.x, -18, transform.position.z);
+        stationaryPosition = new Vector3(transform.position.x, transform.position.y, -50);
+        hoveredPosition = new Vector3(transform.position.x, transform.position.y, -33);
     }
 
     void Update()

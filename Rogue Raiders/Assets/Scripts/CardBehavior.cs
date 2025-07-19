@@ -11,6 +11,7 @@ public class CardBehavior : MonoBehaviour
     private Vector3 stationaryPosition;
     private CardDirection direction;
     private bool isDragging = false;
+    private GameManager gameManager;
 
     public enum CardDirection
     {
@@ -21,10 +22,14 @@ public class CardBehavior : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         objectRenderer = GetComponent<Renderer>();
         direction = CardDirection.Stationary;
-        stationaryPosition = new Vector3(transform.position.x, transform.position.y, -50);
-        hoveredPosition = new Vector3(transform.position.x, transform.position.y, -33);
+
+        // These are the positions based on a main camera at 0, 50, 0 and at angle 90, -90, 0
+        stationaryPosition = new Vector3(50, -39, 0);
+        transform.position = stationaryPosition;
+        hoveredPosition = new Vector3(33, transform.position.y, transform.position.z);
     }
 
     void Update()

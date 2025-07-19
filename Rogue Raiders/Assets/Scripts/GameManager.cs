@@ -8,55 +8,74 @@ using static UnityEngine.GraphicsBuffer;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private GameObject gridPoint;
-    [SerializeField] private int gridWidth;
-    [SerializeField] private int gridLength;
+    [SerializeField] private GameObject towerSlotNode;
+    [SerializeField] private GameObject pathNode;
+    [SerializeField] private float camScaleDist = 1.5f;
+    [SerializeField] private Grid grid;
+
+    private int gridWidth;
+    private int gridLength;
     private float centerX = 0;
     private float centerY = 0;
     private float cameraHeight = 10;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Error state checking
-        CheckErrors();
+        if (mainCamera == null) mainCamera = Camera.main;
+        if(grid == null) grid = GetComponent<Grid>();
+        if (grid == null)
+        {
+            grid = new Grid();
+            grid.cellGap = new Vector3(1, 0, 1);
+            grid.cellSize = new Vector3(4, 0, 4);
+        }
 
-        // Spawn them in a grid starting at (0, 0, 0)
+        // Spawn a map at (0, 0, 0)
         SpawnMap(1);
 
-        // Move camera to the center of the grid
+        // Move camera to the center of the map
         CenterCamera();
     }
 
     private void SpawnMap(int id)
     {
         string[,] map = MazeManager.GetMap(id);
-        float width = gridPoint.transform.localScale.x;
-        float length = gridPoint.transform.localScale.z;
+        float width = grid.cellSize.x;
+        float length = grid.cellSize.z;
         gridWidth = map.GetLength(0);
         gridLength = map.GetLength(1);
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridLength; j++)
             {
-                if (map[i,j] == "01")
-                {
-                    SpawnNode(i * (width + 1), j * (length + 1));
-                }
+                GameObject obj = MapLegendToObject(map[i, j]);
+                obj.transform.localScale = grid.cellSize;
+                SpawnNode(obj, i * (width + grid.cellGap.x), j * (length + grid.cellGap.z));
             }
         }
 
-        centerX = ((gridWidth - 1) * (width + 1)) / 2;
-        centerY = ((gridLength - 1) * (length + 1)) / 2;
+        centerX = ((gridWidth - 1) * (width + grid.cellGap.x)) / 2;
+        centerY = ((gridLength - 1) * (length + grid.cellGap.z)) / 2;
         float w = gridWidth * width;
         float l = gridLength * length;
         cameraHeight = w > l ? w : l;
-        cameraHeight *= 1.2f;
+        cameraHeight *= camScaleDist;
     }
 
-    private void SpawnNode(float x, float y)
+    private GameObject MapLegendToObject(string mapStr)
+    {
+        switch (mapStr)
+        {
+            case "01": return towerSlotNode;
+            case "00": return pathNode;
+            default: return new GameObject();
+        }
+    }
+
+    private void SpawnNode(GameObject node, float x, float y)
     {
         Debug.Log("Spawning node at (" + x + ", " + y + ")");
-        Instantiate(gridPoint, new Vector3(x, 0, y), Quaternion.identity);
+        Instantiate(node, new Vector3(x, 0, y), Quaternion.identity);
     }
 
     private void CenterCamera()
@@ -90,25 +109,5 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
-    }
-
-
-    private void CheckErrors()
-    {
-        if (gridWidth < 1 || gridLength < 1)
-        {
-            gridWidth = gridWidth < 1 ? 1 : gridWidth;
-            gridLength = gridLength < 1 ? 1 : gridLength;
-            Debug.LogError("Grid length and width must be at least 1");
-        }
-        if (gridPoint == null)
-        {
-            Debug.LogError("No gridPoint object set");
-        }
-        if(mainCamera == null)
-        {
-            Debug.LogError("No camera object set; using Camera.main");
-            mainCamera = Camera.main;
-        }
     }
 }

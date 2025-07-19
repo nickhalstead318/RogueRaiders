@@ -385,6 +385,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 692244642929408697, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
+      propertyPath: m_CellGap.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 692244642929408697, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
+      propertyPath: m_CellGap.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 692244642929408697, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
+      propertyPath: m_CellSize.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 692244642929408697, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
+      propertyPath: m_CellSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 692244642929408697, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
+      propertyPath: m_CellSize.z
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 757279966919360582, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -433,6 +453,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 5920451138048998722, guid: 82c8e404f6ed710429559d991a216e4c, type: 3}
+      propertyPath: camScaleDist
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

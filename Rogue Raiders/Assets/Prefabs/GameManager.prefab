@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2915872625865688857}
   - component: {fileID: 5920451138048998722}
+  - component: {fileID: 692244642929408697}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,6 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  gridPoint: {fileID: 5559668237036051394, guid: 408aa4442178a234bb8637d29bd00da7, type: 3}
-  gridWidth: 25
-  gridLength: 25
+  towerSlotNode: {fileID: 5559668237036051394, guid: 408aa4442178a234bb8637d29bd00da7, type: 3}
+  pathNode: {fileID: 7134574082968921564, guid: a97889215c1f29c41bd34adeef7f93c4, type: 3}
+  camScaleDist: 1.5
+  grid: {fileID: 692244642929408697}
+--- !u!156049354 &692244642929408697
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757279966919360582}
+  m_Enabled: 1
+  m_CellSize: {x: 4, y: 0, z: 4}
+  m_CellGap: {x: 1, y: 0, z: 1}
+  m_CellLayout: 0
+  m_CellSwizzle: 0

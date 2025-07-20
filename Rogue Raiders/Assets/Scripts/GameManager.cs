@@ -8,6 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private GameObject card;
     [SerializeField] private GameObject towerSlotNode;
     [SerializeField] private GameObject pathNode;
     [SerializeField] private float camScaleDist = 1.5f;
@@ -35,9 +36,12 @@ public class GameManager : MonoBehaviour
 
         // Move camera to the center of the map
         CenterCamera();
+
+        // Spawn some cards
+        SpawnCards(5);
     }
 
-    private void SpawnMap(int id)
+    public void SpawnMap(int id)
     {
         string[,] map = MazeManager.GetMap(id);
         float width = grid.cellSize.x;
@@ -62,6 +66,24 @@ public class GameManager : MonoBehaviour
         cameraHeight *= camScaleDist;
     }
 
+    public void CenterCamera()
+    {
+        // mainCamera.transform.position = new Vector3(centerX, cameraHeight, centerY);
+        MoveCameraTo(centerX, centerY);
+    }
+
+    public void SpawnCards(int quantity)
+    {
+        for(int i = 0; i <quantity; i++)
+        {
+            GameObject obj = Instantiate(card);
+            obj.transform.Rotate(new Vector3(0, 180.0f, 0));
+            obj.GetComponent<CardBehavior>().cardIndex = i;
+
+        }
+    }
+
+
     private GameObject MapLegendToObject(string mapStr)
     {
         switch (mapStr)
@@ -76,12 +98,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Spawning node at (" + x + ", " + y + ")");
         Instantiate(node, new Vector3(x, 0, y), Quaternion.identity);
-    }
-
-    private void CenterCamera()
-    {
-        // mainCamera.transform.position = new Vector3(centerX, cameraHeight, centerY);
-        MoveCameraTo(centerX, centerY);
     }
 
     private void MoveCameraTo(float x, float y)

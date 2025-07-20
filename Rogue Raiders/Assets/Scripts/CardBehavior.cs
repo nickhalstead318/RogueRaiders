@@ -6,38 +6,35 @@ public class CardBehavior : MonoBehaviour
 {
     public Color hoverColor = Color.red;
     public float cardSpeed = 10.0f;
-    [SerializeField] private int cardIndex = 0;
-    [SerializeField] Vector3 stationaryPos = new Vector3(65, 5, 0);
+    public int cardIndex = 0;
+    [SerializeField] Vector3 unhoveredPos = new Vector3(65, 5, 0);
     [SerializeField] Vector3 hoveredPos = new Vector3(40, 5, 0);
 
     private Renderer objectRenderer;
     private CardDirection direction;
     private bool isDragging = false;
-    private GameManager gameManager;
 
     public enum CardDirection
     {
         Unhovered,
-        Hovered,
-        Stationary,
+        Hovered
     }
 
     void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         objectRenderer = GetComponent<Renderer>();
         direction = CardDirection.Unhovered;
 
         // Update z coords
         hoveredPos.z = getZ();
-        stationaryPos.z = getZ();
+        unhoveredPos.z = getZ();
 
-        transform.position = stationaryPos;
+        transform.position = unhoveredPos;
     }
 
     private float getZ()
     {
-        return (transform.localScale.z * (cardIndex - 2)) + Camera.main.transform.position.z;
+        return (transform.localScale.z * (10.1f * (cardIndex - 2))) + Camera.main.transform.position.z;
     }
 
     void Update()
@@ -58,19 +55,18 @@ public class CardBehavior : MonoBehaviour
 
         // Update z coords
         hoveredPos.z = getZ();
-        stationaryPos.z = getZ();
+        unhoveredPos.z = getZ();
 
         // Not dragging the card
         if (direction == CardDirection.Hovered || direction == CardDirection.Unhovered)
         {
-            Vector3 destination = (direction == CardDirection.Hovered) ? hoveredPos : stationaryPos;
+            Vector3 destination = (direction == CardDirection.Hovered) ? hoveredPos : unhoveredPos;
             transform.position = Vector3.MoveTowards(transform.position, destination, cardSpeed * Time.deltaTime);
 
             // Stationary in threshhold
             if (Vector3.Distance(transform.position, destination) < 0.01f)
             {
                 transform.position = destination; // Snaps card
-                // direction = CardDirection.Stationary;
             }
         }
     }

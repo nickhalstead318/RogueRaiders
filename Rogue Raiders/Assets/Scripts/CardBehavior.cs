@@ -17,8 +17,8 @@ public class CardBehavior : MonoBehaviour
 
     public enum CardDirection
     {
-        Hovered,
         Unhovered,
+        Hovered,
         Stationary,
     }
 
@@ -26,9 +26,9 @@ public class CardBehavior : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         objectRenderer = GetComponent<Renderer>();
-        direction = CardDirection.Stationary;
+        direction = CardDirection.Unhovered;
 
-        // 
+        // Update z coords
         hoveredPos.z = getZ();
         stationaryPos.z = getZ();
 
@@ -42,6 +42,7 @@ public class CardBehavior : MonoBehaviour
 
     void Update()
     {
+        // Dragging the card
         if (isDragging)
         {
             if (Input.GetMouseButtonDown(1))
@@ -55,6 +56,11 @@ public class CardBehavior : MonoBehaviour
             return; // Early quits if dragging
         }
 
+        // Update z coords
+        hoveredPos.z = getZ();
+        stationaryPos.z = getZ();
+
+        // Not dragging the card
         if (direction == CardDirection.Hovered || direction == CardDirection.Unhovered)
         {
             Vector3 destination = (direction == CardDirection.Hovered) ? hoveredPos : stationaryPos;
@@ -64,7 +70,7 @@ public class CardBehavior : MonoBehaviour
             if (Vector3.Distance(transform.position, destination) < 0.01f)
             {
                 transform.position = destination; // Snaps card
-                direction = CardDirection.Stationary;
+                // direction = CardDirection.Stationary;
             }
         }
     }
